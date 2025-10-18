@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>USA Swap Center</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #002B5B; /* Темно-синій як на вашому зображенні */
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 20px auto;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            color: white;
+        }
+
+        header h1 {
+            font-size: 1.8rem;
+            font-weight: 600;
+        }
+
+        .exchange-id-top {
+            text-align: center;
+            font-size: 1.2rem;
+            color: #FFC107;
+            margin-bottom: 20px;
+        }
+
+        .stats {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .stats span {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.9rem;
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(10px);
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 25px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+            margin-bottom: 25px;
+        }
+
+        .crypto-tile {
+            padding: 20px;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+            display: inline-block;
+            width: 100%;
+            position: relative;
+        }
+
+        .crypto-tile:hover {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .crypto-tile.active {
+            border-color: #28a745; /* Зелена обводка для USDT */
+            background: rgba(40, 167, 69, 0.1);
+        }
+
+        .crypto-tile img {
+            width: 40px;
+            height: 40px;
+            margin-bottom: 10px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+
+        .paypal-input {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .paypal-input i {
+            font-size: 1.2rem;
+            color: #003087;
+        }
+
+        .paypal-input input {
+            flex: 1;
+            padding: 12px 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: white;
+            font-size: 1rem;
+        }
+
+        .paypal-input input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .paypal-logo-circle {
+            background: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #003087;
+            font-size: 1.2rem;
+        }
+
+        .input-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 15px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: white;
+            font-size: 1rem;
+        }
+
+        .input-group input::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-primary {
+            background: rgba(255, 193, 7, 0.8);
+            color: black;
+        }
+
+        .btn-primary:hover {
+            background: rgba(255, 193, 7, 1);
+        }
+
+        .btn-cancel {
+            background: rgba(231, 76, 60, 0.8);
+            color: white;
+        }
+
+        .btn-cancel:hover {
+            background: rgba(192, 57, 43, 0.9);
+        }
+
+        .steps-column h3 {
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+            color: white;
+        }
+
+        #trade-steps {
+            list-style: none;
+            padding: 0;
+        }
+
+        #trade-steps li {
+            padding: 12px 0;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .step-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 28px;
+            height: 28px;
+            border-radius: 50%;
+            background: #ccc;
+            color: white;
+            font-size: 12px;
+        }
+
+        .step-icon.active {
+            background: #28a745;
+        }
+
+        .step-icon.inactive {
+            background: #ccc;
+        }
+
+        .chat-column h3 {
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+            color: white;
+        }
+
+        .chat-log {
+            height: 200px;
+            overflow-y: auto;
+            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.1);
+            padding: 15px;
+            margin-bottom: 15px;
+        }
+
+        .message {
+            margin-bottom: 12px;
+            padding: 10px 14px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.2);
+            max-width: 80%;
+        }
+
+        .message.service {
+            background: rgba(0, 123, 255, 0.3);
+            align-self: flex-start;
+        }
+
+        .message.user {
+            background: rgba(255, 193, 7, 0.3);
+            align-self: flex-end;
+            margin-left: auto;
+        }
+
+        .chat-input {
+            display: flex;
+            gap: 10px;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 12px 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            color: white;
+        }
+
+        .chat-input input::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(5px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: rgba(255, 255, 255, 0.9);
+            color: #333;
+            padding: 30px;
+            border-radius: 16px;
+            text-align: center;
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .modal-content img {
+            width: 200px;
+            height: 200px;
+            margin: 20px auto;
+            display: block;
+        }
+
+        .modal-btns {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .btn-cancel {
+            background: rgba(231, 76, 60, 0.8);
+            color: white;
+        }
+
+        .btn-cancel:hover {
+            background: rgba(192, 57, 43, 0.9);
+        }
+
+        .spinner {
+            border: 8px solid rgba(255, 255, 255, 0.3);
+            border-top: 8px solid #3498db;
+            border-radius: 50%;
+            width: 60px;
+            height: 60px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .hidden {
+            display: none !important;
+        }
+
+        .exchange-info {
+            background: rgba(0, 123, 255, 0.1);
+            padding: 20px;
+            border-radius: 12px;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .exchange-info p {
+            margin: 8px 0;
+            font-size: 1rem;
+        }
+
+        .exchange-info strong {
+            color: #FFC107;
+        }
+
+        .address-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .copy-icon {
+            background: rgba(40, 167, 69, 0.8);
+            color: white;
+            padding: 6px 10px; /* Менша кнопка */
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .copy-icon:hover {
+            background: rgba(32, 137, 56, 0.9);
+        }
+
+        .copy-tooltip {
+            position: absolute;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            opacity: 0;
+            transition: opacity 0.3s;
+            pointer-events: none;
+            z-index: 1000;
+        }
+
+        .start-exchange-wrapper {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .qr-container {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .qr-container img {
+            width: 200px;
+            height: 200px;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            background: white;
+            padding: 10px;
+        }
+
+        .blockchain-loader {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+            color: #FFC107;
+        }
+
+        .blockchain-loader .spinner {
+            width: 24px;
+            height: 24px;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid #FFC107;
+        }
+
+        .blockchain-status {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+.comments-section {
+    margin-top: 20px;
+}
+
+.comments-section h3 {
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+    color: white;
+    text-align: center;
+}
+
+.comment {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    padding: 15px;
+    margin-bottom: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.comment-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    font-size: 0.9rem;
+}
+
+.comment-author {
+    font-weight: 600;
+    color: #FFC107;
+}
+
+.comment-ip {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.8rem;
+}
+
+.comment-date {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.8rem;
+}
+
+.comment-text {
+    color: rgba(255, 255, 255, 0.9);
+    line-height: 1.4;
+    margin-bottom: 10px;
+}
+
+.comment-actions {
+    text-align: right;
+}
+
+.comment-remove {
+    color: rgba(231, 76, 60, 0.8);
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.comment-remove:hover {
+    color: rgba(192, 57, 43, 0.9);
+}
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Contact - usa.swap.center@support.com</h1>
+            <div class="stats">
+                <span><i class="fas fa-check-circle"></i> 14,000+ Trades</span>
+                <span><i class="fas fa-star"></i> 5/5 (100%) Rating</span>
+            </div>
+        </header>
+
+        <div class="exchange-id-top">
+            <strong>Exchange ID:</strong> <span id="top-exchange-id">-</span>
+        </div>
+
+        <div class="glass-card exchange-section" id="exchange-form">
+            <div class="crypto-tile active" data-crypto="USDT">
+                <!-- Ви можете замінити src на usdt-logo.png -->
+                <img src="usdt-logo.png" alt="USDT Logo" onerror="this.src='image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI0MCIgaGVpZ2h0PSI0MCIgdmlld0JveD0iMCAwIDQwIDQwIj4KICA8cmVjdCB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIGZpbGw9IiMwMDIwNDgiLz4KICA8dGV4dCB4PSIxNSIgeT0iMjAiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxMiIgZmlsbD0id2hpdGUiPlVTRFQ8L3RleHQ+Cjwvc3ZnPg==';">
+                <div>USDT</div>
+            </div>
+
+            <div class="input-group">
+                <div>
+                    <label for="crypto-amount">USDT Amount</label>
+                    <input type="number" id="crypto-amount" placeholder="Enter amount" step="any">
+                </div>
+                <div>
+                    <label for="usd-amount">Receive amount</label>
+                    <input type="number" id="usd-amount" placeholder="USD" step="any">
+                </div>
+            </div>
+
+            <div class="paypal-input">
+                <div class="paypal-logo-circle">
+                    <i class="fab fa-paypal"></i>
+                </div>
+                <input type="text" id="paypal-email" placeholder="Enter your PayPal email">
+            </div>
+
+            <div class="start-exchange-wrapper">
+                <button id="start-exchange" class="btn btn-primary">Start Exchange</button>
+            </div>
+        </div>
+
+        <div id="exchange-info" class="glass-card hidden">
+            <h3>Your Exchange Details</h3>
+            <p><strong>You send:</strong> <span id="display-crypto">0.000000</span> USDT</p>
+            <p><strong>You will receive:</strong> $<span id="display-usd">0.00</span> via PayPal</p>
+            <p><strong>Your PayPal:</strong> <span id="display-paypal">-</span></p>
+
+            <div class="address-container">
+                <strong>Escrow Address:</strong>
+                <span id="final-address">TXphPtzGmx672pKmdV79KfmDH2AKYC4ViU</span>
+                <span class="copy-icon" id="copy-address"><i class="fas fa-copy"></i></span>
+                <div class="copy-tooltip" id="copy-tooltip">Copied!</div>
+            </div>
+
+            <div class="qr-container">
+                <img id="qr-code" src="qr-code.png" alt="QR Code">
+            </div>
+
+            <div class="blockchain-loader">
+                <div class="spinner"></div>
+                <div class="blockchain-status">
+                    <span>Scanning blockchain for transaction...</span>
+                    <span id="blockchain-confirmations">0/0</span>
+                </div>
+            </div>
+
+            <div class="modal-btns">
+                <button id="cancel-exchange" class="btn btn-cancel">Cancel</button>
+            </div>
+        </div>
+
+        <div class="glass-card steps-column">
+            <h3>Trade Process</h3>
+            <ul id="trade-steps">
+                <li><span class="step-icon active"><i class="fas fa-check"></i></span> Initiated</li>
+                <li><span class="step-icon"><i class="fas fa-check"></i></span> Accept Trade</li>
+                <li><span class="step-icon inactive"><i class="fas fa-times"></i></span> Wait for Escrow</li>
+                <li><span class="step-icon inactive"><i class="fas fa-times"></i></span> Seller send Crypto in Escrow</li>
+                <li><span class="step-icon inactive"><i class="fas fa-times"></i></span> Buyer pay to seller in PayPal</li>
+                <li><span class="step-icon inactive"><i class="fas fa-times"></i></span> Seller confirm fiat receipt</li>
+                <li><span class="step-icon inactive"><i class="fas fa-times"></i></span> Crypto released to buyer</li>
+                <li><span class="step-icon inactive"><i class="fas fa-times"></i></span> Complete trade</li>
+            </ul>
+        </div>
+
+        <div class="glass-card chat-column">
+            <h3>Chat</h3>
+            <div id="chat-log" class="chat-log">
+                <div class="message service">Welcome! We are online.</div>
+                <div class="message service">You can send messages only after crypto is in escrow.</div>
+            </div>
+            <div class="chat-input">
+                <input type="text" id="message-input" placeholder="Type a message..." disabled>
+                <button id="send-message" class="btn btn-primary" disabled>Send</button>
+            </div>
+<!-- Додайте цей код перед закриваючим тегом </div> для .container -->
+
+<div class="glass-card comments-section">
+    <h3>User Reviews</h3>
+    
+    <div class="comment">
+        <div class="comment-header">
+            <span class="comment-author">🇺🇸 Jennifer</span>
+            <span class="comment-date">October 18, 2025 14:23</span>
+        </div>
+        <div class="comment-text">Fast and secure USDT to PayPal exchange! Received funds in 10 minutes.</div>
+        <div class="comment-actions">
+            <span class="comment-remove">Remove</span>
+        </div>
+    </div>
+
+    <div class="comment">
+        <div class="comment-header">
+            <span class="comment-author">🇺🇸 Mike</span>
+            <span class="comment-date">October 18, 2025 09:45</span>
+        </div>
+        <div class="comment-text">Perfect service for converting USDT to PayPal cash. No issues at all!</div>
+        <div class="comment-actions">
+            <span class="comment-remove">Remove</span>
+        </div>
+    </div>
+
+    <div class="comment">
+        <div class="comment-header">
+            <span class="comment-author">🇬🇧 David</span>
+            <span class="comment-date">October 17, 2025 18:30</span>
+        </div>
+        <div class="comment-text">Excellent rates for USDT/PayPal exchange. Will use again!</div>
+        <div class="comment-actions">
+            <span class="comment-remove">Remove</span>
+        </div>
+    </div>
+
+    <div class="comment">
+        <div class="comment-header">
+            <span class="comment-author">🇺🇸 Sarah</span>
+            <span class="comment-date">October 15, 2025 11:15</span>
+        </div>
+        <div class="comment-text">Quick USDT to PayPal transfer. Support was very helpful.</div>
+        <div class="comment-actions">
+            <span class="comment-remove">Remove</span>
+        </div>
+    </div>
+
+    <div class="comment">
+        <div class="comment-header">
+            <span class="comment-author">🇩🇪 Thomas</span>
+            <span class="comment-date">October 13, 2025 16:40</span>
+        </div>
+        <div class="comment-text">Smooth USDT-PayPal exchange process. Good rates compared to others.</div>
+        <div class="comment-actions">
+            <span class="comment-remove">Remove</span>
+        </div>
+    </div>
+
+    <div class="comment">
+        <div class="comment-header">
+            <span class="comment-author">🇺🇸 Robert</span>
+            <span class="comment-date">October 11, 2025 13:20</span>
+        </div>
+        <div class="comment-text">Converted $500 USDT to PayPal without any problems. Recommended!</div>
+        <div class="comment-actions">
+            <span class="comment-remove">Remove</span>
+        </div>
+    </div>
+
+    <div class="comment">
+        <div class="comment-header">
+            <span class="comment-author">🇫🇷 Marie</span>
+            <span class="comment-date">October 10, 2025 10:05</span>
+        </div>
+        <div class="comment-text">Fast USDT to PayPal exchange for European users. Merci!</div>
+        <div class="comment-actions">
+            <span class="comment-remove">Remove</span>
+        </div>
+    </div>
+
+    <div class="comment">
+        <div class="comment-header">
+            <span class="comment-author">🇺🇸 Kevin</span>
+            <span class="comment-date">October 10, 2025 15:55</span>
+        </div>
+        <div class="comment-text">Best platform for USDT to PayPal conversion. Low fees!</div>
+        <div class="comment-actions">
+            <span class="comment-remove">Remove</span>
+        </div>
+    </div>
+
+    <div class="comment">
+        <div class="comment-header">
+            <span class="comment-author">🇬🇧 Emma</span>
+            <span class="comment-date">October 10, 2025 12:30</span>
+        </div>
+        <div class="comment-text">Reliable USDT-PayPal service. Funds arrived in minutes.</div>
+        <div class="comment-actions">
+            <span class="comment-remove">Remove</span>
+        </div>
+    </div>
+
+    <div class="comment">
+        <div class="comment-header">
+            <span class="comment-author">🇺🇸 Alex</span>
+            <span class="comment-date">October 9, 2025 17:45</span>
+        </div>
+        <div class="comment-text">Great experience converting USDT to PayPal. Very professional.</div>
+        <div class="comment-actions">
+            <span class="comment-remove">Remove</span>
+        </div>
+    </div>
+
+    <div class="comment">
+        <div class="comment-header">
+            <span class="comment-author">🇩🇪 Klaus</span>
+            <span class="comment-date">October 9, 2025 08:20</span>
+        </div>
+        <div class="comment-text">Efficient USDT to PayPal exchange. Good for German users.</div>
+        <div class="comment-actions">
+            <span class="comment-remove">Remove</span>
+        </div>
+    </div>
+
+    <div class="comment">
+        <div class="comment-header">
+            <span class="comment-author">🇺🇸 Lisa</span>
+            <span class="comment-date">October 9, 2025 14:10</span>
+        </div>
+        <div class="comment-text">Perfect for quick USDT to PayPal transfers. 5 stars!</div>
+        <div class="comment-actions">
+            <span class="comment-remove">Remove</span>
+        </div>
+    </div>
+
+    <div class="comment">
+        <div class="comment-header">
+            <span class="comment-author">🇫🇷 Pierre</span>
+            <span class="comment-date">October 7, 2025 11:25</span>
+        </div>
+        <div class="comment-text">Fast USDT-PayPal service from France. No complaints!</div>
+        <div class="comment-actions">
+            <span class="comment-remove">Remove</span>
+        </div>
+    </div>
+
+    <div class="comment">
+        <div class="comment-header">
+            <span class="comment-author">🇺🇸 Brian</span>
+            <span class="comment-date">October 5, 2025 19:15</span>
+        </div>
+        <div class="comment-text">Excellent USDT to PayPal exchange rates. Will use regularly.</div>
+        <div class="comment-actions">
+            <span class="comment-remove">Remove</span>
+        </div>
+    </div>
+
+    <div class="comment">
+        <div class="comment-header">
+            <span class="comment-author">🇬🇧 Olivia</span>
+            <span class="comment-date">October 4, 2025 13:40</span>
+        </div>
+        <div class="comment-text">Smooth USDT/PayPal transaction. Perfect for UK users.</div>
+        <div class="comment-actions">
+            <span class="comment-remove">Remove</span>
+        </div>
+    </div>
+
+    <div class="comment">
+        <div class="comment-header">
+            <span class="comment-author">🇺🇸 Jason</span>
+            <span class="comment-date">October 3, 2025 16:50</span>
+        </div>
+        <div class="comment-text">Quick and secure USDT to PayPal conversion. Highly recommended!</div>
+        <div class="comment-actions">
+            <span class="comment-remove">Remove</span>
+        </div>
+    </div>
+
+    <div class="comment">
+        <div class="comment-header">
+            <span class="comment-author">🇩🇪 Anna</span>
+            <span class="comment-date">October 2, 2025 10:35</span>
+        </div>
+        <div class="comment-text">Reliable USDT-PayPal exchange service from Germany.</div>
+        <div class="comment-actions">
+            <span class="comment-remove">Remove</span>
+        </div>
+    </div>
+
+    <div class="comment">
+        <div class="comment-header">
+            <span class="comment-author">🇺🇸 Michelle</span>
+            <span class="comment-date">October 1, 2025 15:20</span>
+        </div>
+        <div class="comment-text">Perfect for converting USDT to PayPal funds. Fast delivery!</div>
+        <div class="comment-actions">
+            <span class="comment-remove">Remove</span>
+        </div>
+    </div>
+
+    <div class="comment">
+        <div class="comment-header">
+            <span class="comment-author">🇫🇷 Sophie</span>
+            <span class="comment-date">September 29, 2025 12:05</span>
+        </div>
+        <div class="comment-text">Great USDT to PayPal service for French customers.</div>
+        <div class="comment-actions">
+            <span class="comment-remove">Remove</span>
+        </div>
+    </div>
+
+    <div class="comment">
+        <div class="comment-header">
+            <span class="comment-author">🇺🇸 Daniel</span>
+            <span class="comment-date">September 27, 2025 18:30</span>
+        </div>
+        <div class="comment-text">Best USDT-PayPal exchange platform I've used. Fast and secure!</div>
+        <div class="comment-actions">
+            <span class="comment-remove">Remove</span>
+        </div>
+    </div>
+</div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const cryptoTile = document.querySelector('.crypto-tile');
+            const cryptoAmount = document.getElementById('crypto-amount');
+            const usdAmount = document.getElementById('usd-amount');
+            const startExchangeBtn = document.getElementById('start-exchange');
+            const exchangeForm = document.getElementById('exchange-form');
+            const exchangeInfo = document.getElementById('exchange-info');
+            const chatLog = document.getElementById('chat-log');
+            const messageInput = document.getElementById('message-input');
+            const sendMessageBtn = document.getElementById('send-message');
+            const copyAddressBtn = document.getElementById('copy-address');
+            const copyTooltip = document.getElementById('copy-tooltip');
+            const finalAddress = document.getElementById('final-address');
+            const qrCodeImg = document.getElementById('qr-code');
+            const displayUsd = document.getElementById('display-usd');
+            const displayCrypto = document.getElementById('display-crypto');
+            const displayPaypal = document.getElementById('display-paypal');
+            const cancelExchangeBtn = document.getElementById('cancel-exchange');
+            const topExchangeIdSpan = document.getElementById('top-exchange-id');
+            const blockchainConfirmations = document.getElementById('blockchain-confirmations');
+            const waitStep = document.querySelector('#trade-steps li:nth-child(3) span.step-icon');
+            const waitStepText = document.querySelector('#trade-steps li:nth-child(3)');
+
+            let selectedCrypto = 'USDT';
+            const rates = { USDT: 1 }; // Тільки USDT
+            const margin = 0.40; // 40%
+            const minCryptoAmount = 2000; // Мінімум 2,000 USDT  ← ДОДАЙТЕ ЦЕЙ РЯДОК
+            const maxCryptoAmount = 10000000; // Максимум 10 000 000 USDT
+
+            function updateUSD() {
+                const amount = parseFloat(cryptoAmount.value);
+                if (!isNaN(amount)) {
+                    const total = (amount * rates.USDT * (1 + margin)).toFixed(2);
+                    usdAmount.value = total;
+                } else {
+                    usdAmount.value = '';
+                }
+            }
+
+            function updateCrypto() {
+                const usd = parseFloat(usdAmount.value);
+                if (!isNaN(usd)) {
+                    const amount = (usd / rates.USDT / (1 + margin)).toFixed(6);
+                    cryptoAmount.value = amount;
+                } else {
+                    cryptoAmount.value = '';
+                }
+            }
+
+            cryptoAmount.addEventListener('input', updateUSD);
+            usdAmount.addEventListener('input', updateCrypto);
+
+startExchangeBtn.addEventListener('click', () => {
+    const crypto = parseFloat(cryptoAmount.value);
+    const paypal = document.getElementById('paypal-email').value.trim();
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+    // Перевірка вводу суми
+    if (!crypto || isNaN(crypto)) {
+        alert("Please enter a valid crypto amount.");
+        return;
+    }
+
+    // ДОДАЙТЕ ПЕРЕВІРКУ МІНІМАЛЬНОЇ СУМИ
+    if (crypto < minCryptoAmount) {
+        alert(`Minimum allowed amount is ${minCryptoAmount} USDT.`);
+        return;
+    }
+
+    if (crypto > maxCryptoAmount) {
+        alert(`Maximum allowed amount is ${maxCryptoAmount} USDT.`);
+        return;
+    }
+
+                if (!paypal) {
+                    alert("Please enter your PayPal email.");
+                    return;
+                }
+
+                if (!emailRegex.test(paypal)) {
+                    alert("Please enter a valid email address.");
+                    return;
+                }
+
+                // Анімація 1–3 секунди
+                startExchangeBtn.disabled = true;
+                startExchangeBtn.textContent = 'Processing...';
+
+                setTimeout(() => {
+                    // Приховуємо форму, показуємо інформацію
+                    exchangeForm.classList.add('hidden');
+                    exchangeInfo.classList.remove('hidden');
+
+                    // Генеруємо рандомний ID
+                    const id = 'E' + Math.floor(1000 + Math.random() * 9000) + String.fromCharCode(65 + Math.floor(Math.random() * 26)) + String.fromCharCode(65 + Math.floor(Math.random() * 26));
+                    topExchangeIdSpan.textContent = id;
+
+                    // Оновлюємо дані
+                    displayUsd.textContent = usdAmount.value || '0.00';
+                    displayCrypto.textContent = cryptoAmount.value || '0.000000';
+                    displayPaypal.textContent = paypal;
+
+                    // Оновлюємо підтвердження блокчейну
+                    blockchainConfirmations.textContent = '0/32';
+
+                    // Змінюємо "Wait for Escrow" на "Broadcasting Escrow transaction"
+                    waitStepText.innerHTML = '<span class="step-icon active"><i class="fas fa-check"></i></span> Broadcasting Escrow transaction';
+
+                    addChatMessage("Trade accepted. Please send USDT to escrow.");
+                    updateStep(1, true);
+
+                    // Повідомлення при перезавантаженні
+                    window.addEventListener("beforeunload", function(e) {
+                        e.preventDefault();
+                        e.returnValue = "You are on the exchange page. Are you sure you want to leave?";
+                    });
+
+                    startExchangeBtn.disabled = false;
+                    startExchangeBtn.textContent = 'Start Exchange';
+                }, 2000); // 2 секунди
+            });
+
+            copyAddressBtn.addEventListener('click', () => {
+                navigator.clipboard.writeText(finalAddress.textContent).then(() => {
+                    copyTooltip.style.opacity = '1';
+                    setTimeout(() => {
+                        copyTooltip.style.opacity = '0';
+                    }, 1500);
+                });
+            });
+
+            cancelExchangeBtn.addEventListener('click', () => {
+                // Видаляємо повідомлення при перезавантаженні
+                window.removeEventListener("beforeunload", () => {});
+                location.reload();
+            });
+
+            function addChatMessage(text, type = 'service') {
+                const msgDiv = document.createElement('div');
+                msgDiv.classList.add('message');
+                if (type === 'user') msgDiv.classList.add('user');
+                msgDiv.textContent = text;
+                chatLog.appendChild(msgDiv);
+                chatLog.scrollTop = chatLog.scrollHeight;
+            }
+
+            function enableChatInput() {
+                messageInput.disabled = false;
+                sendMessageBtn.disabled = false;
+                const warning = document.querySelector('.chat-log .service:last-child');
+                if (warning) warning.remove();
+                addChatMessage("You can now send messages.", 'service');
+            }
+
+            function updateStep(index, completed) {
+                const steps = document.querySelectorAll('#trade-steps li span.step-icon');
+                const step = steps[index];
+                if (completed) {
+                    step.innerHTML = '<i class="fas fa-check"></i>';
+                    step.classList.remove('inactive');
+                    step.classList.add('active');
+                }
+            }
+
+            sendMessageBtn.addEventListener('click', () => {
+                const msg = messageInput.value.trim();
+                if (msg) {
+                    addChatMessage(`You: ${msg}`, 'user');
+                    messageInput.value = '';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
