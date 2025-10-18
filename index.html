@@ -500,6 +500,186 @@
 .comment-remove:hover {
     color: rgba(192, 57, 43, 0.9);
 }
+/* Мобільні стилі */
+@media (max-width: 768px) {
+    .container {
+        width: 95%;
+        margin: 10px auto;
+    }
+
+    header {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+
+    header h1 {
+        font-size: 1.5rem;
+    }
+
+    .stats {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .input-group {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
+
+    .glass-card {
+        padding: 20px;
+        margin-bottom: 20px;
+    }
+
+    .crypto-tile {
+        padding: 15px;
+    }
+
+    .crypto-tile img {
+        width: 35px;
+        height: 35px;
+    }
+
+    .paypal-input {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .paypal-logo-circle {
+        width: 35px;
+        height: 35px;
+    }
+
+    .address-container {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 10px;
+    }
+
+    .address-container span:first-child {
+        margin-bottom: 5px;
+    }
+
+    .qr-container img {
+        width: 150px;
+        height: 150px;
+    }
+
+    .blockchain-loader {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .blockchain-status {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .modal-btns {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .modal-btns .btn {
+        width: 100%;
+    }
+
+    .chat-input {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .comment-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+
+    .comment-date {
+        font-size: 0.75rem;
+    }
+
+    #trade-steps li {
+        font-size: 0.9rem;
+    }
+
+    .step-icon {
+        width: 24px;
+        height: 24px;
+        font-size: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        width: 98%;
+    }
+
+    header h1 {
+        font-size: 1.3rem;
+    }
+
+    .exchange-id-top {
+        font-size: 1rem;
+    }
+
+    .glass-card {
+        padding: 15px;
+    }
+
+    .btn {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+    }
+
+    .crypto-tile {
+        padding: 12px;
+    }
+
+    .input-group input,
+    .paypal-input input,
+    .chat-input input {
+        padding: 10px 12px;
+        font-size: 0.9rem;
+    }
+
+    .qr-container img {
+        width: 120px;
+        height: 120px;
+    }
+
+    .comment {
+        padding: 12px;
+    }
+
+    .comment-text {
+        font-size: 0.9rem;
+    }
+}
+
+/* Додаткові покращення для всіх пристроїв */
+html {
+    font-size: 14px;
+}
+
+body {
+    font-size: 1rem;
+}
+
+/* Покращення для скролу на мобільних */
+.chat-log {
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Запобігання масштабуванню при фокусі на інпут */
+@media (max-width: 768px) {
+    input, textarea, select {
+        font-size: 16px; /* Запобігає зуму в iOS */
+    }
+}
+        
     </style>
 </head>
 <body>
